@@ -9,12 +9,12 @@
   },
   "dependencies": {
     "body-parser": "^1.15.2",
-    "botkit": "^0.6.19",
+    "botkit": "^0.6.21",
     "botkit-storage-mongo": "^1.0.7",
     "botkit-studio-metrics": "^0.0.1",
     "debug": "^2.6.0",
     "express": "^4.14.0",
-    "nelligan-api": "1.0.0",
+    "nelligan-api": "^1.0.0",
     "node-env-file": "^0.1.8",
     "request": "^2.79.0",
     "wordfilter": "^0.2.6"

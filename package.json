@@ -1,36 +1,25 @@
 {
-  "name": "botkit-starter-facebook",
+  "name": "nelligan-bot",
   "version": "0.0.2",
-  "description": "A starter kit for building a custom Facebook Messenger bot with Botkit Studio",
+  "description": "A Facebook Messenger bot to manage books on the Nelligan Montreal public libraries",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node bot.js",
+    "dev": "nodemon bot.js"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
     "botkit": "^0.6.19",
+    "botkit-storage-mongo": "^1.0.7",
     "botkit-studio-metrics": "^0.0.1",
     "debug": "^2.6.0",
     "express": "^4.14.0",
+    "nelligan-api": "1.0.0",
     "node-env-file": "^0.1.8",
     "request": "^2.79.0",
     "wordfilter": "^0.2.6"
   },
   "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/howdyai/botkit-starter-facebook.git"
-  },
-  "bugs": {
-    "url": "https://github.com/howdyai/botkit-starter-facebook/issues"
-  },
-  "homepage": "https://github.com/howdyai/botkit-starter-facebook",
-  "keywords": [
-    "bots",
-    "chatbots",
-    "Facebook",
-    "Messenger"
-  ],
-  "author": "ben@howdy.ai",
+  "author": "Julien Bras <julienbras@sidoine.org>",
   "license": "MIT"
 }

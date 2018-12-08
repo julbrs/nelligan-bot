@@ -33,12 +33,14 @@ if (!process.env.verify_token) {
     process.exit(1);
 }
 
-var Botkit = require('botkit');
+var Botkit = require('botkit'),
+    mongoStorage = require('botkit-storage-mongo')({mongoUri: process.env.MONGO_URL || 'mongodb://localhost/test'});
 var debug = require('debug')('botkit:main');
 
 // Create the Botkit controller, which controls all instances of the bot.
 var controller = Botkit.facebookbot({
-    // debug: true,
+    stats_optout: true,
+    storage: mongoStorage,
     verify_token: process.env.verify_token,
     access_token: process.env.page_token,
     studio_token: process.env.studio_token,
@@ -76,34 +78,34 @@ require("fs").readdirSync(normalizedPath).forEach(function(file) {
 // If a trigger is matched, the conversation will automatically fire!
 // You can tie into the execution of the script using the functions
 // controller.studio.before, controller.studio.after and controller.studio.validate
-if (process.env.studio_token) {
-    controller.on('message_received,facebook_postback', function(bot, message) {
-        if (message.text) {
-            controller.studio.runTrigger(bot, message.text, message.user, message.channel, message).then(function(convo) {
-                if (!convo) {
-                    // no trigger was matched
-                    // If you want your bot to respond to every message,
-                    // define a 'fallback' script in Botkit Studio
-                    // and uncomment the line below.
-                    controller.studio.run(bot, 'fallback', message.user, message.channel, message);
-                } else {
-                    // set variables here that are needed for EVERY script
-                    // use controller.studio.before('script') to set variables specific to a script
-                    convo.setVar('current_time', new Date());
-                }
-            }).catch(function(err) {
-                if (err) {
-                    bot.reply(message, 'I experienced an error with a request to Botkit Studio: ' + err);
-                    debug('Botkit Studio: ', err);
-                }
-            });
-        }
-    });
-} else {
-    console.log('~~~~~~~~~~');
-    console.log('NOTE: Botkit Studio functionality has not been enabled');
-    console.log('To enable, pass in a studio_token parameter with a token from https://studio.botkit.ai/');
-}
+// if (process.env.studio_token) {
+//     controller.on('message_received,facebook_postback', function(bot, message) {
+//         if (message.text) {
+//             controller.studio.runTrigger(bot, message.text, message.user, message.channel, message).then(function(convo) {
+//                 if (!convo) {
+//                     // no trigger was matched
+//                     // If you want your bot to respond to every message,
+//                     // define a 'fallback' script in Botkit Studio
+//                     // and uncomment the line below.
+//                     controller.studio.run(bot, 'fallback', message.user, message.channel, message);
+//                 } else {
+//                     // set variables here that are needed for EVERY script
+//                     // use controller.studio.before('script') to set variables specific to a script
+//                     convo.setVar('current_time', new Date());
+//                 }
+//             }).catch(function(err) {
+//                 if (err) {
+//                     bot.reply(message, 'I experienced an error with a request to Botkit Studio: ' + err);
+//                     debug('Botkit Studio: ', err);
+//                 }
+//             });
+//         }
+//     });
+// } else {
+//     console.log('~~~~~~~~~~');
+//     console.log('NOTE: Botkit Studio functionality has not been enabled');
+//     console.log('To enable, pass in a studio_token parameter with a token from https://studio.botkit.ai/');
+// }
 
 function usage_tip() {
     console.log('~~~~~~~~~~');

@@ -12,8 +12,8 @@ module.exports = function(controller) {
           console.log(err)
         }
         if(user_data && user_data.cards) {
-          user_data.cards.forEach((card) => {
-            api.books(card)
+          var promiseList = user_data.cards.map((card) => {
+            return api.books(card)
             .then(data => {
               console.log(data)
               data.books.filter((book) => {
@@ -22,10 +22,16 @@ module.exports = function(controller) {
               }).forEach((book) => {
                 bot.reply(message, `*A rendre bientot*: ${book.title} (${book.duedate})`)
               })
+              return data.books.length
             })
             .catch((err) => {
               bot.reply(message, `Erreur sur la carte ${card.code}`)
             })
+          })
+          Promise.all(promiseList).then((count) => {
+            var sum = count.reduce((a, b) => a + b, 0)
+            bot.reply(message, `Vous avez ${sum} livres sur vos ${count.length} cartes.`)
+
           })
         }
         bot.reply(message, 'Je réflechis...')

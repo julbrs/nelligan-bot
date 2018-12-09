@@ -42,5 +42,5 @@ module.exports = function(controller) {
         })
       })
     })
-  }, 4000);
+  }, (process.env.INTERVAL || 3600 * 8) * 1000);
 };

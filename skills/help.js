@@ -1,21 +1,11 @@
 module.exports = function(controller) {
 
-
-    // This before middleware allows the help command to accept sub-thread names as a parameter
-    // so users can say help to get the default thread, but help <subthread> will automatically
-    // jump to that subthread (if it exists)
-    controller.studio.before('help', function(convo, next) {
-
-        // is there a parameter on the help command?
-        // if so, change topic.
-        if (matches = convo.source_message.text.match(/^help (.*)/i)) {
-            if (convo.hasThread(matches[1])) {
-                convo.gotoThread(matches[1]);
-            }
-        }
-
-        next();
-
+    controller.on('message_received', function(bot, message) {
+      bot.reply(message, 'Comment puis-je vous aider ? Je comprend :\n'+
+    '*ajouter carte* pour ajouter une carte\n'+
+    '*lister cartes* pour lister les cartes associés\n'+
+    '*lister livres a rendre dans les N jours* pour lister les livres (3j par default)\n'+
+    '*effacer carte* pour effacer une carte.\n\n'+
+    'Et je vous averti si vous avez des livres a rendre dans les 24h !')
     });
-
-}
+};
